@@ -1,10 +1,7 @@
 package duck.workoutmanager.infrastructure.entity;
 
 import duck.workoutmanager.application.domain.enums.RoleEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
@@ -23,6 +20,8 @@ public class UserEntity {
     private String password;
     private String name;
     private String surname;
+
+    @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
     private String trainerEmail;

@@ -24,7 +24,7 @@ public class PlannedExerciseEntity {
     private int restSeconds;
 
     @Column(length = 10000)
-    private String coachesNotes;
+    private String coachNotes;
 
     @Column(length = 10000)
     private String userNotes;

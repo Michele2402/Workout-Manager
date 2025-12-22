@@ -18,7 +18,7 @@ public class PlannedExercise {
     private int sets;
     private String timeUnderTension;
     private int restSeconds;
-    private String coachesNotes;
+    private String coachNotes;
     private String userNotes;
     private LocalDate completionDate;
 
@@ -28,12 +28,12 @@ public class PlannedExercise {
     private Set<ExerciseExecution> exerciseExecutions;
 
     @Builder
-    public PlannedExercise(UUID id, int sets, String timeUnderTension, int restSeconds, String coachesNotes, String userNotes, LocalDate completionDate, Exercise exercise, TrainingDay trainingDay) {
+    public PlannedExercise(UUID id, int sets, String timeUnderTension, int restSeconds, String coachNotes, String userNotes, LocalDate completionDate, Exercise exercise, TrainingDay trainingDay) {
         this.id = id;
         this.sets = sets;
         this.timeUnderTension = timeUnderTension;
         this.restSeconds = restSeconds;
-        this.coachesNotes = coachesNotes;
+        this.coachNotes = coachNotes;
         this.userNotes = userNotes;
         this.completionDate = completionDate;
         this.exercise = exercise;
