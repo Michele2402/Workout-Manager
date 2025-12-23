@@ -17,7 +17,7 @@ public class Macrocycle {
     private UUID id;
     private String name;
     private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate expectedEndDate;
     private String coachNotes;
 
     private User user;
@@ -25,11 +25,11 @@ public class Macrocycle {
     private Set<Mesocycle> mesocycles;
 
     @Builder
-    public Macrocycle(UUID id, String name, LocalDate startDate, LocalDate endDate, String coachNotes, User user) {
+    public Macrocycle(UUID id, String name, LocalDate startDate, LocalDate expectedEndDate, String coachNotes, User user) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.expectedEndDate = expectedEndDate;
         this.coachNotes = coachNotes;
         this.user = user;
     }

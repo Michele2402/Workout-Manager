@@ -1,5 +1,6 @@
 package duck.workoutmanager.infrastructure.entity;
 
+import duck.workoutmanager.application.domain.enums.ExerciseStatusEnum;
 import duck.workoutmanager.application.domain.enums.MuscleGroupEnum;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +25,11 @@ public class ExerciseEntity {
     @Column(length = 10000)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private MuscleGroupEnum muscleGroup;
+
+    @Enumerated(EnumType.STRING)
+    private ExerciseStatusEnum exerciseStatus;
 
     private String trainerEmail;
 

@@ -21,7 +21,7 @@ public class MacrocycleEntity {
     private UUID id;
     private String name;
     private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate expectedEndDate;
 
     @Column(length = 10000)
     private String coachNotes;

@@ -1,0 +1,17 @@
+package duck.workoutmanager.presentation.response.exercise;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CreateExerciseResponse {
+
+    private String id;
+    private String name;
+    private String description;
+    private String muscleGroup;
+    private String trainerEmail;
+}

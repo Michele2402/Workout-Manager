@@ -17,7 +17,7 @@ public class Mesocycle {
     private UUID id;
     private String name;
     private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate expectedEndDate;
     private String privateCoachNotes;
     private String publicCoachNotes;
     private int daysPerWeek;
@@ -27,11 +27,11 @@ public class Mesocycle {
     private Set<Week> weeks;
 
     @Builder
-    public Mesocycle(UUID id, String name, LocalDate startDate, LocalDate endDate, String privateCoachNotes, String publicCoachNotes, int daysPerWeek, Macrocycle macrocycle) {
+    public Mesocycle(UUID id, String name, LocalDate startDate, LocalDate expectedEndDate, String privateCoachNotes, String publicCoachNotes, int daysPerWeek, Macrocycle macrocycle) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
-        this.endDate = endDate;
+        this.expectedEndDate = expectedEndDate;
         this.privateCoachNotes = privateCoachNotes;
         this.publicCoachNotes = publicCoachNotes;
         this.daysPerWeek = daysPerWeek;

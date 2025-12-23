@@ -6,6 +6,7 @@ import duck.workoutmanager.application.port.out.user.GetUserPortOut;
 import duck.workoutmanager.infrastructure.entity.UserEntity;
 import duck.workoutmanager.infrastructure.mapper.UserInfrastructureMapper;
 import duck.workoutmanager.infrastructure.repository.UserJpaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +25,7 @@ public class UserAdapterService implements GetUserPortOut, CreateUserPortOut {
     private final UserInfrastructureMapper userMapper;
 
     @Override
+    @Transactional
     public User getUserByEmail(String email) {
         log.info("Start - Get user by email: ({})", email);
 
@@ -35,6 +37,7 @@ public class UserAdapterService implements GetUserPortOut, CreateUserPortOut {
     }
 
     @Override
+    @Transactional
     public void createUser(User user) {
         log.info("Start - Create user: ({})", user.getEmail());
 

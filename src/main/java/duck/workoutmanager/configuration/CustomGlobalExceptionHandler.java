@@ -79,4 +79,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     private ResponseEntity<Object> invalidSizeException(Exception exception) {
         return exceptionHandled(exception, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({AlreadyExistsException.class})
+    private ResponseEntity<Object> alreadyExistsException(Exception exception) {
+        return exceptionHandled(exception, HttpStatus.CONFLICT);
+    }
 }
