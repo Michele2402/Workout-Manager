@@ -74,4 +74,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     private ResponseEntity<Object> exception(Exception exception) {
         return exceptionHandled(exception, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({InvalidSizeException.class})
+    private ResponseEntity<Object> invalidSizeException(Exception exception) {
+        return exceptionHandled(exception, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -44,10 +44,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         (requests) -> requests
                                 .requestMatchers(unauthorizedPaths).permitAll()
-                                .requestMatchers("/**").hasAuthority("ADMIN")
                                 .requestMatchers(trainerPaths).hasAnyAuthority("TRAINER", "ADMIN")
                                 .requestMatchers(userPaths).hasAnyAuthority("USER", "TRAINER", "ADMIN")
-                                .anyRequest().authenticated()
+                                .anyRequest().hasAuthority("ADMIN")
                 )
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
