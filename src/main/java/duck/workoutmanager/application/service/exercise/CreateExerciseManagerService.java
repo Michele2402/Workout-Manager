@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CrateExerciseManagerService implements CreateExerciseUseCase {
+public class CreateExerciseManagerService implements CreateExerciseUseCase {
 
     private final CheckAttribute checkAttribute;
     private final AuthorizationUtils authorizationUtils;

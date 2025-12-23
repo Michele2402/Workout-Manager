@@ -7,11 +7,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateExerciseResponse {
+public class ExerciseResponse {
 
     private String id;
     private String name;
     private String description;
     private String muscleGroup;
+    private String exerciseStatus;
     private String trainerEmail;
 }

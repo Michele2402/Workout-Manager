@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +22,7 @@ public class ExerciseAdapterService implements GetExercisePortOut, CreateExercis
     private final ExerciseJpaRepository exerciseJpaRepository;
 
     private final ExerciseInfrastructureMapper exerciseMapper;
+
 
     @Override
     @Transactional
@@ -46,5 +48,18 @@ public class ExerciseAdapterService implements GetExercisePortOut, CreateExercis
         log.info("End - create exercise: ({})", exercise.getName());
 
         return exerciseMapper.toModel(createdExercise);
+    }
+
+
+    @Override
+    public List<Exercise> getAllByTrainer(String email) {
+
+        log.info("Start - get all exercises by trainer: ({})", email);
+
+        List<ExerciseEntity> exerciseEntities = exerciseJpaRepository.getAllByTrainerEmail(email);
+
+        log.info("End - get all exercises by trainer: ({})", email);
+
+        return exerciseEntities.stream().map(exerciseMapper::toModel).toList();
     }
 }

@@ -4,7 +4,7 @@ import duck.workoutmanager.application.command.exercise.CreateExerciseCommand;
 import duck.workoutmanager.application.domain.model.Exercise;
 import duck.workoutmanager.application.utils.ParseAttributes;
 import duck.workoutmanager.presentation.request.exercise.CreateExerciseRequest;
-import duck.workoutmanager.presentation.response.exercise.CreateExerciseResponse;
+import duck.workoutmanager.presentation.response.exercise.ExerciseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +23,13 @@ public class ExercisePresentationMapper {
     }
 
 
-    public CreateExerciseResponse toResponse(Exercise exercise) {
-        return CreateExerciseResponse.builder()
+    public ExerciseResponse toResponse(Exercise exercise) {
+        return ExerciseResponse.builder()
+                .id(exercise.getId().toString())
                 .name(exercise.getName())
                 .description(exercise.getDescription())
                 .muscleGroup(exercise.getMuscleGroup().name())
+                .exerciseStatus(exercise.getExerciseStatus().name())
                 .trainerEmail(exercise.getTrainerEmail())
                 .build();
     }
