@@ -1,10 +1,14 @@
 package duck.workoutmanager.presentation.controller;
 
+import duck.workoutmanager.application.domain.enums.ExerciseStatusEnum;
 import duck.workoutmanager.application.domain.model.Exercise;
 import duck.workoutmanager.application.port.in.exercise.CreateExerciseUseCase;
 import duck.workoutmanager.application.port.in.exercise.GetExerciseUseCase;
+import duck.workoutmanager.application.port.in.exercise.UpdateExerciseUseCase;
 import duck.workoutmanager.presentation.mapper.ExercisePresentationMapper;
 import duck.workoutmanager.presentation.request.exercise.CreateExerciseRequest;
+import duck.workoutmanager.presentation.request.exercise.UpdateExerciseRequest;
+import duck.workoutmanager.presentation.request.exercise.UpdateExerciseStatusRequest;
 import duck.workoutmanager.presentation.response.exercise.ExerciseResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +28,7 @@ public class ExerciseController {
 
     private final CreateExerciseUseCase createExerciseUseCase;
     private final GetExerciseUseCase getExerciseUseCase;
+    private final UpdateExerciseUseCase updateExerciseUseCase;
 
     @PostMapping
     public ResponseEntity<ExerciseResponse> createExercise(
@@ -55,4 +60,33 @@ public class ExerciseController {
 
         return ResponseEntity.ok(responses);
     }
+
+
+    @PutMapping("/update-status")
+    public ResponseEntity<String> updateExerciseStatus(
+            @RequestBody UpdateExerciseStatusRequest request
+    ) {
+        log.info("Start - update exercise status: ({})", request.getExerciseId());
+
+        ExerciseStatusEnum status = updateExerciseUseCase.updateExerciseStatus(exerciseMapper.toCommand(request));
+
+        log.info("End - update exercise status: ({})", request.getExerciseId());
+
+        return ResponseEntity.ok(status.name());
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<ExerciseResponse> updateExercise(
+            @RequestBody UpdateExerciseRequest request
+    ) {
+        log.info("Start - update exercise: ({})", request.getExerciseId());
+
+        Exercise exercise = updateExerciseUseCase.updateExercise(exerciseMapper.toCommand(request));
+
+        log.info("End - update exercise: ({})", request.getExerciseId());
+
+        return ResponseEntity.ok(exerciseMapper.toResponse(exercise));
+    }
+
 }

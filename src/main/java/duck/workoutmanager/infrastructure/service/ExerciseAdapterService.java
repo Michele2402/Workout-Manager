@@ -3,6 +3,7 @@ package duck.workoutmanager.infrastructure.service;
 import duck.workoutmanager.application.domain.model.Exercise;
 import duck.workoutmanager.application.port.out.exercise.CreateExercisePortOut;
 import duck.workoutmanager.application.port.out.exercise.GetExercisePortOut;
+import duck.workoutmanager.application.port.out.exercise.UpdateExercisePortOut;
 import duck.workoutmanager.infrastructure.entity.ExerciseEntity;
 import duck.workoutmanager.infrastructure.mapper.ExerciseInfrastructureMapper;
 import duck.workoutmanager.infrastructure.repository.ExerciseJpaRepository;
@@ -13,11 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ExerciseAdapterService implements GetExercisePortOut, CreateExercisePortOut {
+public class ExerciseAdapterService implements
+        GetExercisePortOut,
+        CreateExercisePortOut,
+        UpdateExercisePortOut
+{
 
     private final ExerciseJpaRepository exerciseJpaRepository;
 
@@ -61,5 +67,30 @@ public class ExerciseAdapterService implements GetExercisePortOut, CreateExercis
         log.info("End - get all exercises by trainer: ({})", email);
 
         return exerciseEntities.stream().map(exerciseMapper::toModel).toList();
+    }
+
+
+    @Override
+    public Exercise getById(UUID id) {
+        log.info("Start - get exercise by id: ({})", id);
+
+        Optional<ExerciseEntity> optionalExerciseEntity = exerciseJpaRepository.findById(id);
+
+        log.info("End - get exercise by id: ({})", id);
+
+        return optionalExerciseEntity.map(exerciseMapper::toModel).orElse(null);
+    }
+
+
+    @Override
+    public Exercise updateExercise(Exercise exercise) {
+        log.info("Start - update exercise: ({})", exercise.getId());
+
+        ExerciseEntity exerciseEntity = exerciseMapper.toEntity(exercise);
+        ExerciseEntity updatedExercise = exerciseJpaRepository.save(exerciseEntity);
+
+        log.info("End - update exercise: ({})", exercise.getId());
+
+        return exerciseMapper.toModel(updatedExercise);
     }
 }

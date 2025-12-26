@@ -30,4 +30,11 @@ public class Exercise {
         this.exerciseStatus = exerciseStatus;
         this.trainerEmail = trainerEmail;
     }
+
+
+    public void updateDetails(String name, String description, MuscleGroupEnum muscleGroup) {
+        this.name = name;
+        this.description = description;
+        this.muscleGroup = muscleGroup;
+    }
 }
