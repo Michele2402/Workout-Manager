@@ -36,4 +36,13 @@ public class Macrocycle {
         this.status = status;
         this.user = user;
     }
+
+
+    public void activate() {
+        this.status = MacrocycleStatusEnum.ACTIVE;
+    }
+
+    public void complete() {
+        this.status = MacrocycleStatusEnum.COMPLETED;
+    }
 }

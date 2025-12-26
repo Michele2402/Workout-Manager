@@ -2,11 +2,13 @@ package duck.workoutmanager.application.service.macrocycle;
 
 import duck.workoutmanager.application.command.macrocycle.CreateMacrocycleCommand;
 import duck.workoutmanager.application.domain.enums.MacrocycleStatusEnum;
+import duck.workoutmanager.application.domain.exception.AlreadyExistsException;
 import duck.workoutmanager.application.domain.exception.ObjectNotFoundException;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.domain.model.User;
 import duck.workoutmanager.application.port.in.macrocycle.CreateMacrocycleUseCase;
 import duck.workoutmanager.application.port.out.macrocycle.CreateMacrocyclePortOut;
+import duck.workoutmanager.application.port.out.macrocycle.GetMacrocyclePortOut;
 import duck.workoutmanager.application.port.out.user.CheckUserPortOut;
 import duck.workoutmanager.application.port.out.user.GetUserPortOut;
 import duck.workoutmanager.application.utils.AuthorizationUtils;
@@ -16,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -27,7 +30,7 @@ public class CreateMacrocycleManagerService implements CreateMacrocycleUseCase {
     private final AuthorizationUtils authorizationUtils;
 
     private final GetUserPortOut getUserPortOut;
-    private final CheckUserPortOut checkUserPortOut;
+    private final GetMacrocyclePortOut getMacrocyclePortOut;
     private final CreateMacrocyclePortOut createMacrocyclePortOut;
 
     @Override
@@ -35,7 +38,7 @@ public class CreateMacrocycleManagerService implements CreateMacrocycleUseCase {
 
         checkCommand(command);
 
-        User user = getUserPortOut.getUserByEmail(command.getUserEmail());
+        User user = getUserPortOut.getByEmail(command.getUserEmail());
 
         if (user == null) {
             log.error("User with email ({}) not found", command.getUserEmail());
@@ -44,7 +47,19 @@ public class CreateMacrocycleManagerService implements CreateMacrocycleUseCase {
 
         authorizationUtils.checkUserIsAssociatedWithLoggedTrainer(user);
 
-        boolean hasAnyMacrocycle = checkUserPortOut.checkUserHasAnyMacrocycle(command.getUserEmail());
+        List<Macrocycle> userMacrocycles = getMacrocyclePortOut.getByUserEmail(user.getEmail());
+
+        boolean macrocycleWithSameNameExists = userMacrocycles.stream()
+                .anyMatch(macrocycle -> macrocycle.getName().equalsIgnoreCase(command.getName()));
+
+        if(macrocycleWithSameNameExists){
+            log.error("Macrocycle with name ({}) already exists for user ({})", command.getName(), user.getEmail());
+            throw new AlreadyExistsException("Macrocycle with the same name already exists for this user");
+        }
+
+
+        boolean hasAnyMacrocycle = userMacrocycles.stream()
+                .anyMatch(macrocycle -> macrocycle.getStatus() == MacrocycleStatusEnum.ACTIVE);
 
         MacrocycleStatusEnum status = hasAnyMacrocycle ? MacrocycleStatusEnum.PLANNED : MacrocycleStatusEnum.ACTIVE;
 

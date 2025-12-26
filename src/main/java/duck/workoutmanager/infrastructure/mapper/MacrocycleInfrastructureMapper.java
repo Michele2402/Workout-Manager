@@ -34,4 +34,16 @@ public class MacrocycleInfrastructureMapper {
                 .coachNotes(entity.getCoachNotes())
                 .build();
     }
+
+    public Macrocycle toModelWithUser(MacrocycleEntity entity) {
+        return Macrocycle.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .startDate(entity.getStartDate())
+                .expectedEndDate(entity.getExpectedEndDate())
+                .status(entity.getStatus())
+                .coachNotes(entity.getCoachNotes())
+                .user(userMapper.toModel(entity.getUser()))
+                .build();
+    }
 }

@@ -31,7 +31,7 @@ public class UserAdapterService implements
 
     @Override
     @Transactional
-    public User getUserByEmail(String email) {
+    public User getByEmail(String email) {
         log.info("Start - Get user by email: ({})", email);
 
         Optional<UserEntity> optionalUser = userJpaRepository.findByEmail(email);

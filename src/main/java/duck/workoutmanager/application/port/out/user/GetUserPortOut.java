@@ -4,5 +4,5 @@ import duck.workoutmanager.application.domain.model.User;
 
 public interface GetUserPortOut {
 
-    User getUserByEmail(String email);
+    User getByEmail(String email);
 }

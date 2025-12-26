@@ -90,7 +90,7 @@ public class AuthManagerService implements LoginUseCase, RegisterUserCase {
                 .trainerEmail(trainerEmail)
                 .build();
 
-        User savedUser = getUserPortOut.getUserByEmail(command.getEmail());
+        User savedUser = getUserPortOut.getByEmail(command.getEmail());
 
         if(savedUser != null) {
             log.error("User with email {} already exists", command.getEmail());
