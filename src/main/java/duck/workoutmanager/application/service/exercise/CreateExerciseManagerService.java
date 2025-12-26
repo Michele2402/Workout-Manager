@@ -54,7 +54,7 @@ public class CreateExerciseManagerService implements CreateExerciseUseCase {
 
 
     private void checkCommand(CreateExerciseCommand command) {
-        checkAttribute.checkStringIsNullOrEmpty(command.getName(), "Exercise name");
+        checkAttribute.checkStringIsNotNullOrEmpty(command.getName(), "Exercise name");
         checkAttribute.checkStringIsShorterThan(command.getName(), 100, "Exercise name");
         checkAttribute.checkStringIsShorterThan(command.getDescription(), 500, "Exercise description");
     }

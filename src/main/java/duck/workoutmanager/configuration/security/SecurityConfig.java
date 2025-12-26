@@ -30,7 +30,7 @@ public class SecurityConfig {
     };
 
     private final String[] trainerPaths = {
-            "/users/register", "/exercises/**"
+            "/users/register", "/exercises/**", "/macrocycles/**"
     };
 
     private final String[] userPaths = {

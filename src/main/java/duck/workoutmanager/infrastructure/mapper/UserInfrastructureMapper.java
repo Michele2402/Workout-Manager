@@ -29,4 +29,10 @@ public class UserInfrastructureMapper {
                 .trainerEmail(model.getTrainerEmail())
                 .build();
     }
+
+    public UserEntity toEntityWithOnlyEmail(User model) {
+        return UserEntity.builder()
+                .email(model.getEmail())
+                .build();
+    }
 }

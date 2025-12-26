@@ -14,7 +14,6 @@ import duck.workoutmanager.application.utils.AuthorizationUtils;
 import duck.workoutmanager.application.utils.CheckAttribute;
 import duck.workoutmanager.configuration.security.CustomUserDetails;
 import duck.workoutmanager.configuration.security.JwtService;
-import duck.workoutmanager.presentation.request.user.LoginRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -110,8 +109,8 @@ public class AuthManagerService implements LoginUseCase, RegisterUserCase {
             throw new ObjectIsNullException("LoginRequest is null");
         }
 
-        checkAttribute.checkStringIsNullOrEmpty(request.getEmail(), "Email");
-        checkAttribute.checkStringIsNullOrEmpty(request.getPassword(), "Password");
+        checkAttribute.checkStringIsNotNullOrEmpty(request.getEmail(), "Email");
+        checkAttribute.checkStringIsNotNullOrEmpty(request.getPassword(), "Password");
     }
 
     private void validateRegistrationCommand(RegisterCommand request) {
@@ -121,11 +120,11 @@ public class AuthManagerService implements LoginUseCase, RegisterUserCase {
             throw new ObjectIsNullException("RegisterRequest is null");
         }
 
-        checkAttribute.checkStringIsNullOrEmpty(request.getName(), "Name");
+        checkAttribute.checkStringIsNotNullOrEmpty(request.getName(), "Name");
         checkAttribute.checkStringIsShorterThan(request.getName(), 255, "Name");
-        checkAttribute.checkStringIsNullOrEmpty(request.getSurname(), "Surname");
+        checkAttribute.checkStringIsNotNullOrEmpty(request.getSurname(), "Surname");
         checkAttribute.checkStringIsShorterThan(request.getSurname(), 255, "Surname");
-        checkAttribute.checkStringIsNullOrEmpty(request.getEmail(), "Email");
+        checkAttribute.checkStringIsNotNullOrEmpty(request.getEmail(), "Email");
         checkAttribute.checkEmailFormat(request.getEmail(), "Email");
     }
 }

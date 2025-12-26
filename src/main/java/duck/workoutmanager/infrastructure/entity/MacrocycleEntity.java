@@ -1,5 +1,6 @@
 package duck.workoutmanager.infrastructure.entity;
 
+import duck.workoutmanager.application.domain.enums.MacrocycleStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,9 @@ public class MacrocycleEntity {
     private String name;
     private LocalDate startDate;
     private LocalDate expectedEndDate;
+
+    @Enumerated(EnumType.STRING)
+    private MacrocycleStatusEnum status;
 
     @Column(length = 10000)
     private String coachNotes;

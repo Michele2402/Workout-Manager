@@ -6,6 +6,8 @@ import duck.workoutmanager.application.domain.exception.InvalidParsingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
 @Component
@@ -19,6 +21,16 @@ public class ParseAttributes {
         } catch (IllegalArgumentException | NullPointerException e) {
             log.error("Invalid UUID: {}", uuidStr);
             throw new InvalidParsingException("Invalid UUID: " + uuidStr);
+        }
+    }
+
+
+    public LocalDate parseLocalDate(String dateStr) {
+        try {
+            return LocalDate.parse(dateStr);
+        } catch (DateTimeParseException | NullPointerException e) {
+            log.error("Invalid date: {}", dateStr);
+            throw new InvalidParsingException("Invalid date: " + dateStr);
         }
     }
 

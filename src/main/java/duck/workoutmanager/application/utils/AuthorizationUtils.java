@@ -1,6 +1,7 @@
 package duck.workoutmanager.application.utils;
 
 import duck.workoutmanager.application.domain.exception.AuthorizationException;
+import duck.workoutmanager.application.domain.model.User;
 import duck.workoutmanager.configuration.security.CustomUserDetails;
 import duck.workoutmanager.configuration.security.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,15 @@ public class AuthorizationUtils {
 
         log.error("Principal is not of type CustomUserDetails");
         throw new AuthorizationException("User is not authenticated");
+    }
+
+
+    public void checkUserIsAssociatedWithLoggedTrainer(User user) {
+        String currentTrainerEmail = getCurrentUserEmail();
+
+        if(!user.getTrainerEmail().equals(currentTrainerEmail)){
+            log.error("User ({}) is not associated with trainer ({})", user.getEmail(), currentTrainerEmail);
+            throw new AuthorizationException("Unauthorized access to user");
+        }
     }
 }

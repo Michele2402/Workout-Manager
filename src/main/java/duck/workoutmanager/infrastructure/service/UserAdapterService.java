@@ -1,6 +1,7 @@
 package duck.workoutmanager.infrastructure.service;
 
 import duck.workoutmanager.application.domain.model.User;
+import duck.workoutmanager.application.port.out.user.CheckUserPortOut;
 import duck.workoutmanager.application.port.out.user.CreateUserPortOut;
 import duck.workoutmanager.application.port.out.user.GetUserPortOut;
 import duck.workoutmanager.infrastructure.entity.UserEntity;
@@ -18,7 +19,11 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserAdapterService implements GetUserPortOut, CreateUserPortOut {
+public class UserAdapterService implements
+        GetUserPortOut,
+        CreateUserPortOut,
+        CheckUserPortOut
+{
 
     private final UserJpaRepository userJpaRepository;
 
@@ -46,4 +51,14 @@ public class UserAdapterService implements GetUserPortOut, CreateUserPortOut {
         log.info("End - Create user: ({})", user.getEmail());
     }
 
+    @Override
+    public boolean checkUserHasAnyMacrocycle(String userEmail) {
+        log.info("Start - Check user has any macrocycle: ({})", userEmail);
+
+        boolean hasAnyMacrocycle = userJpaRepository.hasAnyMacrocycle(userEmail);
+
+        log.info("End - Check user has any macrocycle: ({})", userEmail);
+
+        return hasAnyMacrocycle;
+    }
 }

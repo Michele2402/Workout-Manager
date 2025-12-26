@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CheckAttribute {
 
 
-    public void checkStringIsNullOrEmpty(String string, String infoAttribute) {
+    public void checkStringIsNotNullOrEmpty(String string, String infoAttribute) {
         if (string == null || string.isEmpty()) {
             log.error("{} is null or empty", infoAttribute);
             throw new AttributeIsNullException(infoAttribute + " is null or empty");

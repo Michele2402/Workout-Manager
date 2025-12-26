@@ -1,5 +1,6 @@
 package duck.workoutmanager.application.domain.model;
 
+import duck.workoutmanager.application.domain.enums.MacrocycleStatusEnum;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,18 +20,20 @@ public class Macrocycle {
     private LocalDate startDate;
     private LocalDate expectedEndDate;
     private String coachNotes;
+    private MacrocycleStatusEnum status;
 
     private User user;
 
     private Set<Mesocycle> mesocycles;
 
     @Builder
-    public Macrocycle(UUID id, String name, LocalDate startDate, LocalDate expectedEndDate, String coachNotes, User user) {
+    public Macrocycle(UUID id, String name, LocalDate startDate, LocalDate expectedEndDate, String coachNotes, MacrocycleStatusEnum status, User user) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.expectedEndDate = expectedEndDate;
         this.coachNotes = coachNotes;
+        this.status = status;
         this.user = user;
     }
 }
