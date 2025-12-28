@@ -82,5 +82,7 @@ public class CreateMacrocycleManagerService implements CreateMacrocycleUseCase {
 
         checkAttribute.checkStringIsNotNullOrEmpty(command.getName(), "macrocycle name");
         checkAttribute.checkStringIsShorterThan(command.getName(), 255, "macrocycle name");
+
+        checkAttribute.checkDateIsNotInThePast(command.getExpectedEndDate(), "expected end date");
     }
 }

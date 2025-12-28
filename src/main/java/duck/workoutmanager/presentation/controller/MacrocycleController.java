@@ -3,10 +3,12 @@ package duck.workoutmanager.presentation.controller;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.port.in.macrocycle.ActivateMacrocycleUseCase;
 import duck.workoutmanager.application.port.in.macrocycle.CreateMacrocycleUseCase;
+import duck.workoutmanager.application.port.in.macrocycle.UpdateMacrocycleNameUseCase;
 import duck.workoutmanager.application.port.in.macrocycle.UpdateMacrocycleNotesUseCase;
 import duck.workoutmanager.presentation.mapper.MacrocyclePresentationMapper;
 import duck.workoutmanager.presentation.request.macrocycle.ActivateMacrocycleRequest;
 import duck.workoutmanager.presentation.request.macrocycle.CreateMacrocycleRequest;
+import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNameRequest;
 import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNotesRequest;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ public class MacrocycleController {
     private final CreateMacrocycleUseCase createMacrocycleUseCase;
     private final ActivateMacrocycleUseCase activateMacrocycleUseCase;
     private final UpdateMacrocycleNotesUseCase updateMacrocycleNotesUseCase;
+    private final UpdateMacrocycleNameUseCase updateMacrocycleNameUseCase;
 
     @PostMapping
     public ResponseEntity<MacrocycleResponse> createMacrocycle(
@@ -77,6 +80,22 @@ public class MacrocycleController {
         log.info("End - update notes for macrocycle with id: ({})", request.getMacrocycleId());
 
         return ResponseEntity.ok(updatedNotes);
+    }
+
+
+    @PutMapping("/name")
+    public ResponseEntity<String> updateMacrocycleName(
+            @RequestBody UpdateMacrocycleNameRequest request
+    ) {
+        log.info("Start - update name for macrocycle with id: ({})", request.getMacrocycleId());
+
+        String updatedName = updateMacrocycleNameUseCase.updateMacrocycleName(
+                macrocycleMapper.toCommand(request)
+        );
+
+        log.info("End - update name for macrocycle with id: ({})", request.getMacrocycleId());
+
+        return ResponseEntity.ok(updatedName);
     }
 
 }

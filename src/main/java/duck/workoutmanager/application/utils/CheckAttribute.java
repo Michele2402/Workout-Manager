@@ -5,6 +5,8 @@ import duck.workoutmanager.application.domain.exception.InvalidSizeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 @Slf4j
 public class CheckAttribute {
@@ -29,6 +31,13 @@ public class CheckAttribute {
         if (email != null && !email.matches(emailRegex)) {
             log.error("{} has invalid email format", infoAttribute);
             throw new InvalidSizeException(infoAttribute + " has invalid email format");
+        }
+    }
+
+    public void checkDateIsNotInThePast(LocalDate date, String infoAttribute) {
+        if (date != null && date.isBefore(LocalDate.now())) {
+            log.error("{} is in the past", infoAttribute);
+            throw new InvalidSizeException(infoAttribute + " is in the past");
         }
     }
 }

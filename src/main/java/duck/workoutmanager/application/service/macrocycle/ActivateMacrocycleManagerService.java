@@ -47,6 +47,15 @@ public class ActivateMacrocycleManagerService implements ActivateMacrocycleUseCa
 
         List<Macrocycle> userMacrocycles = getMacrocyclePortOut.getByUserEmail(user.getEmail());
 
+        boolean macrocycleBelongsToUser = userMacrocycles.stream()
+                .anyMatch(macrocycle -> macrocycle.getId().equals(command.getMacrocycleId()));
+
+        if (!macrocycleBelongsToUser) {
+            log.error("Macrocycle ({}) does not belong to user ({})", command.getMacrocycleId(), command.getUserEmail());
+            throw new AuthorizationException("Macrocycle not found for the specified user");
+        }
+
+
         for (Macrocycle macrocycle : userMacrocycles) {
 
             if (!macrocycle.getUser().getEmail().equals(command.getUserEmail())) {

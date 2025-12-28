@@ -2,11 +2,13 @@ package duck.workoutmanager.presentation.mapper;
 
 import duck.workoutmanager.application.command.macrocycle.ActivateMacrocycleCommand;
 import duck.workoutmanager.application.command.macrocycle.CreateMacrocycleCommand;
+import duck.workoutmanager.application.command.macrocycle.UpdateMacrocycleNameCommand;
 import duck.workoutmanager.application.command.macrocycle.UpdateMacrocycleNotesCommand;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.utils.ParseAttributes;
 import duck.workoutmanager.presentation.request.macrocycle.ActivateMacrocycleRequest;
 import duck.workoutmanager.presentation.request.macrocycle.CreateMacrocycleRequest;
+import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNameRequest;
 import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNotesRequest;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +39,13 @@ public class MacrocyclePresentationMapper {
         return UpdateMacrocycleNotesCommand.builder()
                 .macrocycleId(parseAttributes.parseUUID(request.getMacrocycleId()))
                 .coachNotes(request.getCoachNotes())
+                .build();
+    }
+
+    public UpdateMacrocycleNameCommand toCommand(UpdateMacrocycleNameRequest request) {
+        return UpdateMacrocycleNameCommand.builder()
+                .macrocycleId(parseAttributes.parseUUID(request.getMacrocycleId()))
+                .name(request.getName())
                 .build();
     }
 
