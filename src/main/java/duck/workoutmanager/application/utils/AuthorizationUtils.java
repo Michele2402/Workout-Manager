@@ -3,15 +3,11 @@ package duck.workoutmanager.application.utils;
 import duck.workoutmanager.application.domain.exception.AuthorizationException;
 import duck.workoutmanager.application.domain.model.User;
 import duck.workoutmanager.configuration.security.CustomUserDetails;
-import duck.workoutmanager.configuration.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -41,9 +37,13 @@ public class AuthorizationUtils {
 
 
     public void checkUserIsAssociatedWithLoggedTrainer(User user) {
+
         String currentTrainerEmail = getCurrentUserEmail();
 
-        if(!user.getTrainerEmail().equals(currentTrainerEmail)){
+        log.info("Check if user ({}) is associated with trainer ({})",
+                user.getEmail(), currentTrainerEmail);
+
+        if (!user.getTrainerEmail().equals(currentTrainerEmail)) {
             log.error("User ({}) is not associated with trainer ({})", user.getEmail(), currentTrainerEmail);
             throw new AuthorizationException("Unauthorized access to user");
         }

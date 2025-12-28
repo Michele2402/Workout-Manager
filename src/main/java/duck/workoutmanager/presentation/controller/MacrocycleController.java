@@ -3,9 +3,11 @@ package duck.workoutmanager.presentation.controller;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.port.in.macrocycle.ActivateMacrocycleUseCase;
 import duck.workoutmanager.application.port.in.macrocycle.CreateMacrocycleUseCase;
+import duck.workoutmanager.application.port.in.macrocycle.UpdateMacrocycleNotesUseCase;
 import duck.workoutmanager.presentation.mapper.MacrocyclePresentationMapper;
 import duck.workoutmanager.presentation.request.macrocycle.ActivateMacrocycleRequest;
 import duck.workoutmanager.presentation.request.macrocycle.CreateMacrocycleRequest;
+import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNotesRequest;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ public class MacrocycleController {
 
     private final CreateMacrocycleUseCase createMacrocycleUseCase;
     private final ActivateMacrocycleUseCase activateMacrocycleUseCase;
+    private final UpdateMacrocycleNotesUseCase updateMacrocycleNotesUseCase;
 
     @PostMapping
     public ResponseEntity<MacrocycleResponse> createMacrocycle(
@@ -58,6 +61,22 @@ public class MacrocycleController {
         log.info("End - activate macrocycle with id: ({})", request.getMacrocycleId());
 
         return ResponseEntity.ok(response);
+    }
+
+
+    @PutMapping("/notes")
+    public ResponseEntity<String> updateMacrocycleNotes(
+            @RequestBody UpdateMacrocycleNotesRequest request
+    ) {
+        log.info("Start - update notes for macrocycle with id: ({})", request.getMacrocycleId());
+
+        String updatedNotes = updateMacrocycleNotesUseCase.updateMacrocycleNotes(
+                macrocycleMapper.toCommand(request)
+        );
+
+        log.info("End - update notes for macrocycle with id: ({})", request.getMacrocycleId());
+
+        return ResponseEntity.ok(updatedNotes);
     }
 
 }

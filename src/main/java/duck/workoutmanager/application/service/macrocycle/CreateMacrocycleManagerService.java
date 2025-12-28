@@ -9,7 +9,6 @@ import duck.workoutmanager.application.domain.model.User;
 import duck.workoutmanager.application.port.in.macrocycle.CreateMacrocycleUseCase;
 import duck.workoutmanager.application.port.out.macrocycle.CreateMacrocyclePortOut;
 import duck.workoutmanager.application.port.out.macrocycle.GetMacrocyclePortOut;
-import duck.workoutmanager.application.port.out.user.CheckUserPortOut;
 import duck.workoutmanager.application.port.out.user.GetUserPortOut;
 import duck.workoutmanager.application.utils.AuthorizationUtils;
 import duck.workoutmanager.application.utils.CheckAttribute;
