@@ -1,21 +1,16 @@
 package duck.workoutmanager.presentation.controller;
 
 import duck.workoutmanager.application.domain.model.Macrocycle;
-import duck.workoutmanager.application.port.in.macrocycle.ActivateMacrocycleUseCase;
-import duck.workoutmanager.application.port.in.macrocycle.CreateMacrocycleUseCase;
-import duck.workoutmanager.application.port.in.macrocycle.UpdateMacrocycleNameUseCase;
-import duck.workoutmanager.application.port.in.macrocycle.UpdateMacrocycleNotesUseCase;
+import duck.workoutmanager.application.port.in.macrocycle.*;
 import duck.workoutmanager.presentation.mapper.MacrocyclePresentationMapper;
-import duck.workoutmanager.presentation.request.macrocycle.ActivateMacrocycleRequest;
-import duck.workoutmanager.presentation.request.macrocycle.CreateMacrocycleRequest;
-import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNameRequest;
-import duck.workoutmanager.presentation.request.macrocycle.UpdateMacrocycleNotesRequest;
+import duck.workoutmanager.presentation.request.macrocycle.*;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,6 +26,7 @@ public class MacrocycleController {
     private final ActivateMacrocycleUseCase activateMacrocycleUseCase;
     private final UpdateMacrocycleNotesUseCase updateMacrocycleNotesUseCase;
     private final UpdateMacrocycleNameUseCase updateMacrocycleNameUseCase;
+    private final UpdateMacrocycleEndDateUseCase updateMacrocycleEndDateUseCase;
 
     @PostMapping
     public ResponseEntity<MacrocycleResponse> createMacrocycle(
@@ -96,6 +92,22 @@ public class MacrocycleController {
         log.info("End - update name for macrocycle with id: ({})", request.getMacrocycleId());
 
         return ResponseEntity.ok(updatedName);
+    }
+
+
+    @PutMapping("/end-date")
+    public ResponseEntity<String> updateMacrocycleEndDate(
+            @RequestBody UpdateMacrocycleEndDateRequest request
+    ) {
+        log.info("Start - update end date for macrocycle with id: ({})", request.getMacrocycleId());
+
+        LocalDate updatedEndDate = updateMacrocycleEndDateUseCase.updateMacrocycleEndDate(
+                macrocycleMapper.toCommand(request)
+        );
+
+        log.info("End - update end date for macrocycle with id: ({})", request.getMacrocycleId());
+
+        return ResponseEntity.ok(updatedEndDate.toString());
     }
 
 }
