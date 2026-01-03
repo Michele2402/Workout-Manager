@@ -2,11 +2,13 @@ package duck.workoutmanager.presentation.mapper;
 
 import duck.workoutmanager.application.command.mesocycle.CreateMesocycleCommand;
 import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleEndDateCommand;
+import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleNameCommand;
 import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleNotesCommand;
 import duck.workoutmanager.application.domain.model.Mesocycle;
 import duck.workoutmanager.application.utils.ParseAttributes;
 import duck.workoutmanager.presentation.request.mesocycle.CreateMesocycleRequest;
 import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleEndDateRequest;
+import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleNameRequest;
 import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleNotesRequest;
 import duck.workoutmanager.presentation.response.mesocycle.MesocycleResponse;
 import lombok.RequiredArgsConstructor;
@@ -40,6 +42,13 @@ public class MesocyclePresentationMapper {
         return UpdateMesocycleEndDateCommand.builder()
                 .mesocycleId(parseAttributes.parseUUID(request.getMesocycleId()))
                 .expectedEndDate(parseAttributes.parseLocalDate(request.getExpectedEndDate()))
+                .build();
+    }
+
+    public UpdateMesocycleNameCommand toCommand(UpdateMesocycleNameRequest request) {
+        return UpdateMesocycleNameCommand.builder()
+                .mesocycleId(parseAttributes.parseUUID(request.getMesocycleId()))
+                .name(request.getName())
                 .build();
     }
 

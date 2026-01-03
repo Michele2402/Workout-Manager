@@ -2,15 +2,18 @@ package duck.workoutmanager.presentation.controller;
 
 import duck.workoutmanager.application.command.mesocycle.CreateMesocycleCommand;
 import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleEndDateCommand;
+import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleNameCommand;
 import duck.workoutmanager.application.command.mesocycle.UpdateMesocycleNotesCommand;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.domain.model.Mesocycle;
 import duck.workoutmanager.application.port.in.mesocycle.CreateMesocycleUseCase;
 import duck.workoutmanager.application.port.in.mesocycle.UpdateMesocycleEndDateUseCase;
+import duck.workoutmanager.application.port.in.mesocycle.UpdateMesocycleNameUseCase;
 import duck.workoutmanager.application.port.in.mesocycle.UpdateMesocycleNotesUseCase;
 import duck.workoutmanager.presentation.mapper.MesocyclePresentationMapper;
 import duck.workoutmanager.presentation.request.mesocycle.CreateMesocycleRequest;
 import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleEndDateRequest;
+import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleNameRequest;
 import duck.workoutmanager.presentation.request.mesocycle.UpdateMesocycleNotesRequest;
 import duck.workoutmanager.presentation.response.mesocycle.MesocycleResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +35,7 @@ public class MesocycleController {
     private final CreateMesocycleUseCase createMesocycleUseCase;
     private final UpdateMesocycleNotesUseCase updateMesocycleNotesUseCase;
     private final UpdateMesocycleEndDateUseCase updateMesocycleEndDateUseCase;
+    private final UpdateMesocycleNameUseCase updateMesocycleNameUseCase;
 
 
     @PostMapping
@@ -78,4 +82,18 @@ public class MesocycleController {
         return ResponseEntity.ok(mesocycleEndDate.toString());
     }
 
+
+    @PutMapping("/name")
+    public ResponseEntity<String> updateMesocycleName(
+            @RequestBody UpdateMesocycleNameRequest request
+    ) {
+        log.info("Start - update mesocycle name for mesocycle: ({})", request.getMesocycleId());
+
+        UpdateMesocycleNameCommand command = mesocycleMapper.toCommand(request);
+        String mesocycleName = updateMesocycleNameUseCase.updateName(command);
+
+        log.info("End - update mesocycle name for mesocycle: ({})", request.getMesocycleId());
+
+        return ResponseEntity.ok(mesocycleName);
+    }
 }
