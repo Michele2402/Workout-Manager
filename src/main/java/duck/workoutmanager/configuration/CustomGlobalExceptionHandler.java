@@ -84,4 +84,9 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     private ResponseEntity<Object> alreadyExistsException(Exception exception) {
         return exceptionHandled(exception, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler({AttributeFormatException.class})
+    private ResponseEntity<Object> attributeFormatException(Exception exception) {
+        return exceptionHandled(exception, HttpStatus.BAD_REQUEST);
+    }
 }

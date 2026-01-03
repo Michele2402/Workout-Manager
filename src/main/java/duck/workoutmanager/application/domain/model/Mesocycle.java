@@ -1,16 +1,17 @@
 package duck.workoutmanager.application.domain.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Slf4j
 public class Mesocycle {
 
@@ -36,5 +37,21 @@ public class Mesocycle {
         this.publicCoachNotes = publicCoachNotes;
         this.daysPerWeek = daysPerWeek;
         this.macrocycle = macrocycle;
+    }
+
+
+    public void generateWeeks(int totalWeeks) {
+
+        this.weeks = new HashSet<>();
+
+        for(int i = 0; i < totalWeeks; i++){
+            Week week = Week.builder()
+                    .id(UUID.randomUUID())
+                    .weekNumber(i + 1)
+                    .mesocycle(this)
+                    .build();
+
+            this.weeks.add(week);
+        }
     }
 }

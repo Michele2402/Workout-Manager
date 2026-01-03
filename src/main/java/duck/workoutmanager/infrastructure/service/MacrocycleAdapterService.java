@@ -46,7 +46,7 @@ public class MacrocycleAdapterService implements
     public Macrocycle getByIdWithUser(UUID macrocycleId) {
         log.info("Start - get macrocycle from database by id: ({})", macrocycleId);
 
-        Optional<MacrocycleEntity> macrocycle = macrocycleJpaRepository.findById(macrocycleId);
+        Optional<MacrocycleEntity> macrocycle = macrocycleJpaRepository.findByIdWithUser(macrocycleId);
 
         log.info("End - get macrocycle from database by id: ({})", macrocycleId);
 

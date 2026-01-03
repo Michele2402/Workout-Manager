@@ -2,15 +2,14 @@ package duck.workoutmanager.application.domain.model;
 
 import duck.workoutmanager.application.domain.enums.ExerciseStatusEnum;
 import duck.workoutmanager.application.domain.enums.MuscleGroupEnum;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Slf4j
 public class Exercise {
 

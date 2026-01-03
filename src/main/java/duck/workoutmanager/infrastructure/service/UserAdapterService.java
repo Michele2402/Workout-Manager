@@ -6,6 +6,7 @@ import duck.workoutmanager.application.port.out.user.CreateUserPortOut;
 import duck.workoutmanager.application.port.out.user.GetUserPortOut;
 import duck.workoutmanager.infrastructure.entity.UserEntity;
 import duck.workoutmanager.infrastructure.mapper.UserInfrastructureMapper;
+import duck.workoutmanager.infrastructure.repository.MesocycleJpaRepository;
 import duck.workoutmanager.infrastructure.repository.UserJpaRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,10 +22,10 @@ import java.util.Optional;
 public class UserAdapterService implements
         GetUserPortOut,
         CreateUserPortOut,
-        CheckUserPortOut
-{
+        CheckUserPortOut {
 
     private final UserJpaRepository userJpaRepository;
+    private final MesocycleJpaRepository mesocycleJpaRepository;
 
     private final UserInfrastructureMapper userMapper;
 
@@ -58,5 +60,18 @@ public class UserAdapterService implements
         log.info("End - Check user has any macrocycle: ({})", userEmail);
 
         return hasAnyMacrocycle;
+    }
+
+    @Override
+    @Transactional
+    public boolean checkHasAnyMesocycleWithSameName(UUID macrocycleId, String mesocycleName) {
+        log.info("Start - Check user has any mesocycle with name: ({})", mesocycleName);
+
+        boolean hasAnyMesocycleWithSameName = mesocycleJpaRepository
+                .existsByNameAndMacrocycleId(mesocycleName, macrocycleId);
+
+        log.info("End - Check user has any mesocycle with name: ({})", mesocycleName);
+
+        return hasAnyMesocycleWithSameName;
     }
 }

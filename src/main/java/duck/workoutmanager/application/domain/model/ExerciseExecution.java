@@ -1,14 +1,13 @@
 package duck.workoutmanager.application.domain.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.UUID;
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Slf4j
 public class ExerciseExecution {
 

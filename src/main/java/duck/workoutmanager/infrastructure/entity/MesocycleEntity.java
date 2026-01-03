@@ -35,6 +35,6 @@ public class MesocycleEntity {
     @JoinColumn(name = "macrocycle_id", nullable = false)
     private MacrocycleEntity macrocycle;
 
-    @OneToMany(mappedBy = "mesocycle")
+    @OneToMany(mappedBy = "mesocycle", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<WeekEntity> weeks;
 }
