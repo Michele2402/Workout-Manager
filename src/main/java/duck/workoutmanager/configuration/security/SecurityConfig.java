@@ -26,14 +26,18 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     private final String[] unauthorizedPaths = {
-            "/users/login"
+            "/users/login",
     };
 
     private final String[] trainerPaths = {
-            "/users/register", "/exercises/**", "/macrocycles/**", "/mesocycles/**"
+            "/users/register",
+            "/exercises/**",
+            "/macrocycles/", "/macrocycles/activate", "/macrocycles/notes", "/macrocycles/name", "/macrocycles/end-date",
+            "/mesocycles/**",
     };
 
     private final String[] userPaths = {
+            "/macrocycles/active"
     };
 
     @Bean

@@ -1,5 +1,6 @@
 package duck.workoutmanager.infrastructure.service;
 
+import duck.workoutmanager.application.domain.enums.MacrocycleStatusEnum;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.port.out.macrocycle.CreateMacrocyclePortOut;
 import duck.workoutmanager.application.port.out.macrocycle.GetMacrocyclePortOut;
@@ -51,6 +52,19 @@ public class MacrocycleAdapterService implements
         log.info("End - get macrocycle from database by id: ({})", macrocycleId);
 
         return macrocycle.map(macrocycleMapper::toModelWithUser).orElse(null);
+    }
+
+
+    @Override
+    public Macrocycle getActiveWithMesocycles(String userEmail) {
+        log.info("Start - get active macrocycle from database by user email: ({})", userEmail);
+
+        Optional<MacrocycleEntity> macrocycle = macrocycleJpaRepository
+                .findActiveWithMesocycles(userEmail, MacrocycleStatusEnum.ACTIVE);
+
+        log.info("End - get active macrocycle from database by user email: ({})", userEmail);
+
+        return macrocycle.map(macrocycleMapper::toModelWithMesocycles).orElse(null);
     }
 
 

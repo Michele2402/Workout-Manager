@@ -1,15 +1,20 @@
 package duck.workoutmanager.infrastructure.mapper;
 
 import duck.workoutmanager.application.domain.model.Macrocycle;
+import duck.workoutmanager.application.domain.model.Mesocycle;
 import duck.workoutmanager.infrastructure.entity.MacrocycleEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class MacrocycleInfrastructureMapper {
 
     private final UserInfrastructureMapper userMapper;
+    private final MesocycleInfrastructureMapper mesocycleMapper;
 
     public MacrocycleEntity toEntityWithUserEmail(Macrocycle macrocycle) {
         return MacrocycleEntity.builder()
@@ -45,5 +50,25 @@ public class MacrocycleInfrastructureMapper {
                 .coachNotes(entity.getCoachNotes())
                 .user(userMapper.toModel(entity.getUser()))
                 .build();
+    }
+
+    public Macrocycle toModelWithMesocycles(MacrocycleEntity entity) {
+
+        Set<Mesocycle> mesocycles = entity.getMesocycles().stream()
+                .map(mesocycleMapper::toModel)
+                .collect(Collectors.toSet());
+
+        Macrocycle macrocycle = Macrocycle.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .startDate(entity.getStartDate())
+                .expectedEndDate(entity.getExpectedEndDate())
+                .status(entity.getStatus())
+                .coachNotes(entity.getCoachNotes())
+                .build();
+
+        macrocycle.setMesocycles(mesocycles);
+
+        return macrocycle;
     }
 }

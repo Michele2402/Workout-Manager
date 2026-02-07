@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface GetMacrocyclePortOut {
     Macrocycle getByIdWithUser(UUID macrocycleId);
+    Macrocycle getActiveWithMesocycles(String userEmail);
 
     List<Macrocycle> getByUserEmail(String userEmail);
 }

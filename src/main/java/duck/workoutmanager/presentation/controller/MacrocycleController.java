@@ -4,6 +4,7 @@ import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.port.in.macrocycle.*;
 import duck.workoutmanager.presentation.mapper.MacrocyclePresentationMapper;
 import duck.workoutmanager.presentation.request.macrocycle.*;
+import duck.workoutmanager.presentation.response.macrocycle.GetActiveMacrocycleResponse;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ public class MacrocycleController {
     private final UpdateMacrocycleNotesUseCase updateMacrocycleNotesUseCase;
     private final UpdateMacrocycleNameUseCase updateMacrocycleNameUseCase;
     private final UpdateMacrocycleEndDateUseCase updateMacrocycleEndDateUseCase;
+    private final GetActiveMacrocycleUseCase getActiveMacrocycleUseCase;
 
     @PostMapping
     public ResponseEntity<MacrocycleResponse> createMacrocycle(
@@ -108,6 +110,19 @@ public class MacrocycleController {
         log.info("End - update end date for macrocycle with id: ({})", request.getMacrocycleId());
 
         return ResponseEntity.ok(updatedEndDate.toString());
+    }
+
+
+    @GetMapping("/active")
+    public ResponseEntity<GetActiveMacrocycleResponse> getActiveMacrocycle() {
+        log.info("Start - get active macrocycle");
+
+        Macrocycle activeMacrocycle = getActiveMacrocycleUseCase.getActiveMacrocycle();
+        GetActiveMacrocycleResponse response = macrocycleMapper.toActiveResponse(activeMacrocycle);
+
+        log.info("End - get active macrocycle");
+
+        return ResponseEntity.ok(response);
     }
 
 }

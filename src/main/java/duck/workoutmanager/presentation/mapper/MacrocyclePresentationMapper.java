@@ -4,15 +4,21 @@ import duck.workoutmanager.application.command.macrocycle.*;
 import duck.workoutmanager.application.domain.model.Macrocycle;
 import duck.workoutmanager.application.utils.ParseAttributes;
 import duck.workoutmanager.presentation.request.macrocycle.*;
+import duck.workoutmanager.presentation.response.macrocycle.GetActiveMacrocycleResponse;
 import duck.workoutmanager.presentation.response.macrocycle.MacrocycleResponse;
+import duck.workoutmanager.presentation.response.mesocycle.MesocycleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Comparator;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class MacrocyclePresentationMapper {
 
     private final ParseAttributes parseAttributes;
+    private final MesocyclePresentationMapper mesocyclePresentationMapper;
 
     public CreateMacrocycleCommand toCommand(CreateMacrocycleRequest request) {
         return CreateMacrocycleCommand.builder()
@@ -59,6 +65,24 @@ public class MacrocyclePresentationMapper {
                 .expectedEndDate(macrocycle.getExpectedEndDate().toString())
                 .status(macrocycle.getStatus().toString())
                 .coachNotes(macrocycle.getCoachNotes())
+                .build();
+    }
+
+    public GetActiveMacrocycleResponse toActiveResponse(Macrocycle macrocycle) {
+
+        List<MesocycleResponse> mesocycles = macrocycle.getMesocycles().stream()
+                .map(mesocyclePresentationMapper::toResponse)
+                .sorted(Comparator.comparing(MesocycleResponse::getStartDate))
+                .toList();
+
+        return GetActiveMacrocycleResponse.builder()
+                .id(macrocycle.getId().toString())
+                .name(macrocycle.getName())
+                .startDate(macrocycle.getStartDate().toString())
+                .expectedEndDate(macrocycle.getExpectedEndDate().toString())
+                .status(macrocycle.getStatus().toString())
+                .coachNotes(macrocycle.getCoachNotes())
+                .mesocycles(mesocycles)
                 .build();
     }
 }
